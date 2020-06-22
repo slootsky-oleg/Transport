@@ -4,5 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\CheckIn\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flight.Application\Flight.Application.csproj" />
+  </ItemGroup>
+
 
 </Project>
