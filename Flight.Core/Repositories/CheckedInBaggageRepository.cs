@@ -1,4 +1,5 @@
 ﻿using Flight.Core.Entities.Flying;
+using Flight.Core.Entities.Flying.Cargo;
 
 namespace Flight.Core.Repositories
 {

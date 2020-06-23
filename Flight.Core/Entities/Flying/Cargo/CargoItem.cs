@@ -1,7 +1,6 @@
 ﻿using System;
-using Flight.Core.Values;
 
-namespace Flight.Core.Entities.Flying
+namespace Flight.Core.Entities.Flying.Cargo
 {
     public class CargoItem
     {

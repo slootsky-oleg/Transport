@@ -1,6 +1,7 @@
 ﻿using System;
 using Flight.Application.Exceptions;
 using Flight.Core.Entities.Flying;
+using Flight.Core.Entities.Flying.Cargo;
 using Flight.Core.Repositories;
 
 namespace Flight.Application.Passengers.StartRegistration

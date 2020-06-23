@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Flight.Core.Entities.Flying.Cargo;
 using Flight.Core.Values;
 
 namespace Flight.Core.Entities.Flying

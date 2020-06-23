@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Flight.Core.Values;
 
-namespace Flight.Core.Entities.Flying
+namespace Flight.Core.Entities.Flying.Cargo
 {
     public class CheckedInBaggage
     {
@@ -46,7 +46,7 @@ namespace Flight.Core.Entities.Flying
             var loadedWeight = baggage.Sum(b => b.Weight);
             if (loadedWeight + weight > Limits.Weight)
             {
-                throw new PassengerBaggageNotAllowed($"Passenger [{PassengerId}] exceeded allowed baggage weight [{Limits.Weight}].");
+                throw new PassengerBaggageNotAllowedException($"Passenger [{PassengerId}] exceeded allowed baggage weight [{Limits.Weight}].");
             }
         }
 
@@ -54,7 +54,7 @@ namespace Flight.Core.Entities.Flying
         {
             if (baggage.Count > Limits.Count)
             {
-                throw new PassengerBaggageNotAllowed($"Passenger [{PassengerId}] exceeded allowed bag number [{Limits.Count}].");
+                throw new PassengerBaggageNotAllowedException($"Passenger [{PassengerId}] exceeded allowed bag number [{Limits.Count}].");
             }
         }
     }
