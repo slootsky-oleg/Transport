@@ -2,9 +2,9 @@
 
 namespace Flight.Application.CheckIn.Bag
 {
-    public class CheckInBagRequest
+    public class RegisterPassengerBagRequest
     {
         [Required]
-        public CheckInBagDto Bag { get; set; }
+        public RegisteringBagDto Bag { get; set; }
     }
 }

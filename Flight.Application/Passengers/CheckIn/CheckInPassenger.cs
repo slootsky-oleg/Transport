@@ -24,27 +24,17 @@ namespace Flight.Application.CheckIn.Passenger
             this.baggageRepository = baggageRepository;
         }
 
-        public Guid Execute(long flightId, CheckInPassengerRequest passengerRequest)
+        public void Execute(long flightId, long passengerId)
         {
             var flight = flightRepository.GetById(flightId)
                          ?? throw new FlightNotFoundException(flightId);
 
-            var passengerId = passengerRequest.Passenger.Id;
-            var passenger = passengerRepository.GetById(passengerId)
-                            ?? throw new PassengerNotFoundException(passengerId);
+            var baggage = baggageRepository.Get(flightId, passengerId)
+                          ?? throw new BaggageNotFoundException(flightId, passengerId);
 
-            var baggageLimits = baggageLimitsRepository.GetByServiceClass(flight.FlightNumber, passenger.ServiceClass);
+            flight.CheckIn(baggage);
 
-            var boardingPassGuid = flight.CheckIn(passenger);
-
-            //TODO: consider creating in Flight / factory
-            var emptyBaggage = new CheckedInBaggage(flight, passenger, baggageLimits);
-
-            //Transactional
             flightRepository.Save(flight);
-            baggageRepository.Save(emptyBaggage);
-
-            return boardingPassGuid;
         }
     }
 }

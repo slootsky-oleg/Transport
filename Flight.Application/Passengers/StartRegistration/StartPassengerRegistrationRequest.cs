@@ -2,9 +2,9 @@
 
 namespace Flight.Application.CheckIn.Passenger
 {
-    public class CheckInPassengerRequest
+    public class StartPassengerRegistrationRequest
     {
         [Required]
-        public CheckInPassengerDto Passenger { get; set; }
+        public RegisteringPassengerDto Passenger { get; set; }
     }
 }

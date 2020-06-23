@@ -1,8 +1,8 @@
 ﻿namespace Flight.Application.Exceptions
 {
-    public class CheckedInBaggageNotFoundException : EntityNotFoundException
+    public class BaggageNotFoundException : EntityNotFoundException
     {
-        public CheckedInBaggageNotFoundException(in long flightId, in long passengerId)
+        public BaggageNotFoundException(long flightId, long passengerId)
             : base($"Passenger [{passengerId}] is not checked into flight [{flightId}].")
         {
         }

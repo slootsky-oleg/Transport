@@ -8,22 +8,21 @@ namespace Flight.Core.Entities.Flying
     public class Flight
     {
         private readonly IList<CheckedInPassenger> passengers;
-        private readonly IList<CheckedInBag> cargo;
+        private readonly IList<CargoItem> cargo;
 
         public long Id { get; }
         public Aircraft Aircraft { get; }
         public FlightNumber FlightNumber { get; }
         public Departure Departure { get; }
         public Destination Destination { get; }
-        public int PassengerCapacity => Aircraft.PassengerCapacity;
 
         public IReadOnlyList<CheckedInPassenger> Passengers => passengers.ToList();
-        public IReadOnlyList<CheckedInBag> Cargo => cargo.ToList();
+        public IReadOnlyList<CargoItem> Cargo => cargo.ToList();
 
         public Flight(long id, FlightNumber flightNumber, Departure departure, Destination destination, Aircraft aircraft)
         {
             passengers = new List<CheckedInPassenger>();
-            cargo = new List<CheckedInBag>();
+            cargo = new List<CargoItem>();
 
             Id = id;
 
@@ -33,7 +32,6 @@ namespace Flight.Core.Entities.Flying
             Aircraft = aircraft ?? throw new ArgumentNullException(nameof(aircraft));
         }
 
-        //TODO: can return boarding pass id
         public Guid CheckIn(Passenger passenger)
         {
             if (passengers.Count == Aircraft.PassengerCapacity)
@@ -47,16 +45,14 @@ namespace Flight.Core.Entities.Flying
             return checkedInPassenger.BoardingPassGuid;
         }
 
-        //TODO: can return id
         public void CheckIn(CheckedInBaggage baggage)
         {
             ValidateCanLoadBaggage(baggage);
 
-            var passengerId = baggage.PassengerId;
             foreach (var bag in baggage.Bags)
             {
-                var checkedInBag = new CheckedInBag(passengerId, bag);
-                cargo.Add(checkedInBag);
+                var cargoItem = new CargoItem(bag);
+                cargo.Add(cargoItem);
             }
         }
 

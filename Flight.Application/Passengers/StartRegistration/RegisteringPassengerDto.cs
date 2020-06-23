@@ -1,6 +1,6 @@
 ﻿namespace Flight.Application.CheckIn.Passenger
 {
-    public class CheckInPassengerDto
+    public class RegisteringPassengerDto
     {
         public long Id { get; set; }
     }

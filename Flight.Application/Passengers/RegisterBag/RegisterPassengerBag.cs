@@ -4,21 +4,21 @@ using Flight.Core.Repositories;
 
 namespace Flight.Application.CheckIn.Bag
 {
-    public class CheckInBag
+    public class RegisterPassengerBag
     {
         private readonly ICheckedInBaggageRepository checkedInBaggageRepository;
 
-        public CheckInBag(ICheckedInBaggageRepository checkedInBaggageRepository)
+        public RegisterPassengerBag(ICheckedInBaggageRepository checkedInBaggageRepository)
         {
             this.checkedInBaggageRepository = checkedInBaggageRepository;
         }
 
-        public Guid Execute(long flightId, long passengerId, CheckInBagRequest bagRequest)
+        public Guid Execute(long flightId, long passengerId, RegisterPassengerBagRequest passengerBagRequest)
         {
             var baggage = checkedInBaggageRepository.Get(flightId, passengerId)
-                    ?? throw new CheckedInBaggageNotFoundException(flightId, passengerId);
+                    ?? throw new BaggageNotFoundException(flightId, passengerId);
 
-            var bagDto = bagRequest.Bag;
+            var bagDto = passengerBagRequest.Bag;
 
             var bagGuid = baggage.CheckIn(bagDto.Weight);
 
