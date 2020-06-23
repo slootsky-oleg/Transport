@@ -1,5 +1,4 @@
 ﻿using System;
-using Flight.Application.CheckIn;
 using Flight.Application.CheckIn.Bag;
 using Flight.Application.CheckIn.Passenger;
 using Microsoft.AspNetCore.Mvc;

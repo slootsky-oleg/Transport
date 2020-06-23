@@ -10,8 +10,8 @@ namespace Flight.Core.Entities.Flying
         public FlightId FlightId { get; }
         public PassengerId PassengerId { get; }
 
-        private readonly IList<Bag> baggage;
-        public IReadOnlyList<Bag> Bags => baggage.ToList();
+        private readonly IList<CheckedInBag> baggage;
+        public IReadOnlyList<CheckedInBag> Bags => baggage.ToList();
 
         public BaggageLimits Limits { get; }
 
@@ -20,7 +20,7 @@ namespace Flight.Core.Entities.Flying
             if (flight == null) throw new ArgumentNullException(nameof(flight));
             if (passenger == null) throw new ArgumentNullException(nameof(passenger));
 
-            baggage = new List<Bag>();
+            baggage = new List<CheckedInBag>();
 
             PassengerId = PassengerId.Of(passenger.Id);
             FlightId = FlightId.Of(flight.Id);
@@ -28,19 +28,23 @@ namespace Flight.Core.Entities.Flying
             Limits = baggageLimits ?? throw new ArgumentNullException(nameof(baggageLimits));
         }
 
-        public void CheckIn(Bag bag)
+        public Guid CheckIn(int weight)
         {
             //Consider refactoring towards IServiceClassValidator[]
             ValidateCount();
-            ValidateWeight(bag);
+            ValidateWeight(weight);
 
+            var bagFlightGuid = Guid.NewGuid();
+            var bag = new CheckedInBag(PassengerId, bagFlightGuid, weight);
             baggage.Add(bag);
+
+            return bag.Guid;
         }
 
-        private void ValidateWeight(Bag bag)
+        private void ValidateWeight(int weight)
         {
             var loadedWeight = baggage.Sum(b => b.Weight);
-            if (loadedWeight + bag.Weight > Limits.Weight)
+            if (loadedWeight + weight > Limits.Weight)
             {
                 throw new PassengerBaggageNotAllowed($"Passenger [{PassengerId}] exceeded allowed baggage weight [{Limits.Weight}].");
             }

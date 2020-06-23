@@ -9,11 +9,11 @@ namespace Flight.Core.Entities.Flying
         public Guid Guid { get; }
         public int Weight { get; }
 
-        public CheckedInBag(PassengerId passengerId, Bag bag)
+        public CheckedInBag(PassengerId passengerId, Guid guid, int weight)
         {
             PassengerId = passengerId;
-            Guid = bag.Guid;
-            Weight = bag.Weight;
+            Guid = guid;
+            Weight = weight;
         }
     }
 }

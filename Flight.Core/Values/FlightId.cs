@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Flight.Core.Values
+﻿namespace Flight.Core.Values
 {
     public class FlightId
     {

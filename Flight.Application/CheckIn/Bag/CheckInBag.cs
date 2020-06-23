@@ -1,41 +1,30 @@
-﻿using Flight.Application.Exceptions;
+﻿using System;
+using Flight.Application.Exceptions;
 using Flight.Core.Repositories;
 
 namespace Flight.Application.CheckIn.Bag
 {
     public class CheckInBag
     {
-        private readonly IFlightRepository flightRepository;
-        private readonly IPassengerRepository passengerRepository;
+        private readonly ICheckedInBaggageRepository checkedInBaggageRepository;
 
-        public CheckInBag(IFlightRepository flightRepository, 
-            IPassengerRepository passengerRepository)
+        public CheckInBag(ICheckedInBaggageRepository checkedInBaggageRepository)
         {
-            this.flightRepository = flightRepository;
-            this.passengerRepository = passengerRepository;
+            this.checkedInBaggageRepository = checkedInBaggageRepository;
         }
 
-        public void Execute(long flightId, long passengerId, CheckInBagRequest bagRequest)
+        public Guid Execute(long flightId, long passengerId, CheckInBagRequest bagRequest)
         {
-            var flight = flightRepository.GetById(flightId)
-                         ?? throw new FlightNotFoundException(flightId);
+            var baggage = checkedInBaggageRepository.Get(flightId, passengerId)
+                    ?? throw new CheckedInBaggageNotFoundException(flightId, passengerId);
 
-            var passenger = passengerRepository.GetById(passengerId)
-                            ?? throw new PassengerNotFoundException(passengerId);
+            var bagDto = bagRequest.Bag;
 
-            //var baggage = passengerDto
-            //    .Baggage
-            //    .Select(CreateBaggage);
+            var bagGuid = baggage.CheckIn(bagDto.Weight);
 
-            flight.CheckIn(passenger);
+            checkedInBaggageRepository.Save(baggage);
 
-            flightRepository.Save(flight);
+            return bagGuid;
         }
-
-        //private static Bag CreateBaggage(BaggageDto dto)
-        //{
-        //    var guid = Guid.NewGuid();
-        //    return new Bag(guid, dto.Weight);
-        //}
     }
 }

@@ -2,6 +2,6 @@
 {
     public class CheckInPassengerDto
     {
-        public long Id { get; }
+        public long Id { get; set; }
     }
 }
