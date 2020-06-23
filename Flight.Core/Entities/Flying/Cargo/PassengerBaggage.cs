@@ -5,22 +5,22 @@ using Flight.Core.Values;
 
 namespace Flight.Core.Entities.Flying.Cargo
 {
-    public class CheckedInBaggage
+    public class PassengerBaggage
     {
         public FlightId FlightId { get; }
         public PassengerId PassengerId { get; }
 
-        private readonly IList<CheckedInBag> baggage;
-        public IReadOnlyList<CheckedInBag> Bags => baggage.ToList();
+        private readonly IList<PassengerBag> baggage;
+        public IReadOnlyList<PassengerBag> Bags => baggage.ToList();
 
         public BaggageLimits Limits { get; }
 
-        public CheckedInBaggage(Flight flight, Passenger passenger, BaggageLimits baggageLimits)
+        public PassengerBaggage(Flight flight, Passenger passenger, BaggageLimits baggageLimits)
         {
             if (flight == null) throw new ArgumentNullException(nameof(flight));
             if (passenger == null) throw new ArgumentNullException(nameof(passenger));
 
-            baggage = new List<CheckedInBag>();
+            baggage = new List<PassengerBag>();
 
             PassengerId = PassengerId.Of(passenger.Id);
             FlightId = FlightId.Of(flight.Id);
@@ -35,7 +35,7 @@ namespace Flight.Core.Entities.Flying.Cargo
             ValidateWeight(weight);
 
             var bagFlightGuid = Guid.NewGuid();
-            var bag = new CheckedInBag(PassengerId, bagFlightGuid, weight);
+            var bag = new PassengerBag(PassengerId, bagFlightGuid, weight);
             baggage.Add(bag);
 
             return bag.Guid;

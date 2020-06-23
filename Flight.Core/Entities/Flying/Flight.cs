@@ -35,10 +35,7 @@ namespace Flight.Core.Entities.Flying
 
         public Guid CheckIn(Passenger passenger)
         {
-            if (passengers.Count == Aircraft.PassengerCapacity)
-            {
-                throw new FlightIsOverbookedException(this, passenger);
-            }
+            ValidateCanCheckInPassenger(passenger);
 
             var checkedInPassenger = new CheckedInPassenger(passenger);
             passengers.Add(checkedInPassenger);
@@ -46,7 +43,15 @@ namespace Flight.Core.Entities.Flying
             return checkedInPassenger.BoardingPassGuid;
         }
 
-        public void CheckIn(CheckedInBaggage baggage)
+        private void ValidateCanCheckInPassenger(Passenger passenger)
+        {
+            if (passengers.Count == Aircraft.PassengerCapacity)
+            {
+                throw new FlightIsOverbookedException(this, passenger);
+            }
+        }
+
+        public void CheckIn(PassengerBaggage baggage)
         {
             ValidateCanLoadBaggage(baggage);
 
@@ -57,10 +62,11 @@ namespace Flight.Core.Entities.Flying
             }
         }
 
-        private void ValidateCanLoadBaggage(CheckedInBaggage baggage)
+        private void ValidateCanLoadBaggage(PassengerBaggage baggage)
         {
             var baggageWeight = baggage.Bags.Sum(b => b.Weight);
             var cargoWeight = cargo.Sum(c => c.Weight);
+
             if (cargoWeight + baggageWeight > Aircraft.MaxCargoWeight)
             {
                 throw new AircraftBaggageOverweightException(this, baggage.PassengerId);

@@ -37,7 +37,7 @@ namespace Flight.Application.Passengers.StartRegistration
             var baggageLimits = baggageLimitsRepository.GetByServiceClass(flight.FlightNumber, passenger.ServiceClass);
             //TODO: consider creating in Flight / factory
             //TODO: can be used to implement baggage reservation
-            var emptyBaggage = new CheckedInBaggage(flight, passenger, baggageLimits);
+            var emptyBaggage = new PassengerBaggage(flight, passenger, baggageLimits);
 
             var boardingPassGuid = flight.CheckIn(passenger);
 

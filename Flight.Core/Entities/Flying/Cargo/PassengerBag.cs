@@ -3,13 +3,13 @@ using Flight.Core.Values;
 
 namespace Flight.Core.Entities.Flying.Cargo
 {
-    public class CheckedInBag
+    public class PassengerBag
     {
-        public PassengerId PassengerId { get; set; }
+        public PassengerId PassengerId { get; }
         public Guid Guid { get; }
         public int Weight { get; }
 
-        public CheckedInBag(PassengerId passengerId, Guid guid, int weight)
+        public PassengerBag(PassengerId passengerId, Guid guid, int weight)
         {
             PassengerId = passengerId;
             Guid = guid;

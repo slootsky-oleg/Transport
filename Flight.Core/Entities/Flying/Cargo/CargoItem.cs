@@ -7,7 +7,7 @@ namespace Flight.Core.Entities.Flying.Cargo
         public Guid Guid { get; }
         public int Weight { get; }
 
-        public CargoItem(CheckedInBag bag)
+        public CargoItem(PassengerBag bag)
         {
             Guid = bag.Guid;
             Weight = bag.Weight;

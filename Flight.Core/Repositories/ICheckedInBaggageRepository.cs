@@ -5,7 +5,7 @@ namespace Flight.Core.Repositories
 {
     public interface ICheckedInBaggageRepository
     {
-        CheckedInBaggage Get(long flightId, long passengerId);
-        long Save(CheckedInBaggage emptyBaggage);
+        PassengerBaggage Get(long flightId, long passengerId);
+        long Save(PassengerBaggage emptyBaggage);
     }
 }
