@@ -2,7 +2,7 @@
 using Flight.Application.Exceptions;
 using Flight.Core.Repositories;
 
-namespace Flight.Application.CheckIn.Bag
+namespace Flight.Application.Passengers.RegisterBag
 {
     public class RegisterPassengerBag
     {

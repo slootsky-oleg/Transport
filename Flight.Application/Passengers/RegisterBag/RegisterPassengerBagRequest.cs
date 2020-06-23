@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Flight.Application.CheckIn.Bag
+namespace Flight.Application.Passengers.RegisterBag
 {
     public class RegisterPassengerBagRequest
     {

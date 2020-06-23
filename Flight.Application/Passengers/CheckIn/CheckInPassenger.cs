@@ -1,9 +1,7 @@
-﻿using System;
-using Flight.Application.Exceptions;
-using Flight.Core.Entities.Flying;
+﻿using Flight.Application.Exceptions;
 using Flight.Core.Repositories;
 
-namespace Flight.Application.CheckIn.Passenger
+namespace Flight.Application.Passengers.CheckIn
 {
     public class CheckInPassenger
     {

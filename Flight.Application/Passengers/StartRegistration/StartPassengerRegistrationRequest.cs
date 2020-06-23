@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Flight.Application.CheckIn.Passenger
+namespace Flight.Application.Passengers.StartRegistration
 {
     public class StartPassengerRegistrationRequest
     {

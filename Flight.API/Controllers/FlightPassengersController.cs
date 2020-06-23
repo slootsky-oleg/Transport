@@ -1,6 +1,7 @@
 ﻿using System;
-using Flight.Application.CheckIn.Bag;
-using Flight.Application.CheckIn.Passenger;
+using Flight.Application.Passengers.CheckIn;
+using Flight.Application.Passengers.RegisterBag;
+using Flight.Application.Passengers.StartRegistration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -10,13 +11,6 @@ namespace Flight.API.Controllers
     [Route("flights/{flightId:long}/passengers")]
     public class FlightPassengersController : ControllerBase
     {
-        private readonly ILogger<FlightPassengersController> _logger;
-
-        public FlightPassengersController(ILogger<FlightPassengersController> logger)
-        {
-            _logger = logger;
-        }
-
         [HttpPost]
         [Route("")]
         public Guid StartRegistration(
