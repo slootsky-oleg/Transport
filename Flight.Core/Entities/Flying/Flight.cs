@@ -26,7 +26,7 @@ namespace Flight.Core.Entities.Flying
 
             Id = id;
 
-            FlightNumber = flightNumber ?? throw new ArgumentNullException(nameof(flightNumber));;
+            FlightNumber = flightNumber ?? throw new ArgumentNullException(nameof(flightNumber));
             Departure = departure ?? throw new ArgumentNullException(nameof(departure));
             Destination = destination ?? throw new ArgumentNullException(nameof(destination));
             Aircraft = aircraft ?? throw new ArgumentNullException(nameof(aircraft));
