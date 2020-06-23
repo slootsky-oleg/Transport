@@ -1,4 +1,4 @@
-﻿namespace Flight.Core.Entities.Flight
+﻿namespace Flight.Core.Values
 {
     public class Aircraft
     {

@@ -1,13 +1,14 @@
 ﻿using System;
 
-namespace Flight.Core.Entities.Flight
+namespace Flight.Core.Entities
 {
-    public class Baggage
+    public class Bag
     {
+        public Passenger Passenger { get; }
         public Guid Guid { get; }
         public int Weight { get; }
 
-        public Baggage(Guid guid, int weight)
+        public Bag(Passenger passenger, Guid guid, int weight)
         {
             if (guid == Guid.Empty)
             {
@@ -20,6 +21,7 @@ namespace Flight.Core.Entities.Flight
                 throw new ArgumentException("Is required.", nameof(guid));
             }
             Weight = weight;
+            Passenger = passenger;
         }
     }
 }

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Flight.Core.Services.Flight;
 using Flight.Core.Values;
 
-namespace Flight.Core.Entities.Flight
+namespace Flight.Core.Entities.Flying
 {
     public class Flight
     {
-        private IList<Passenger> passengers;
-        private IList<Baggage> cargo;
+        private readonly IList<CheckedInPassenger> passengers;
+        private readonly IList<CheckedInBag> cargo;
 
         public long Id { get; }
         public Aircraft Aircraft { get; }
@@ -18,11 +17,14 @@ namespace Flight.Core.Entities.Flight
         public Destination Destination { get; }
         public int PassengerCapacity => Aircraft.PassengerCapacity;
 
-        public IReadOnlyList<Passenger> Passengers => passengers.ToList();
-        public IReadOnlyList<Baggage> Cargo => cargo.ToList();
+        public IReadOnlyList<CheckedInPassenger> Passengers => passengers.ToList();
+        public IReadOnlyList<CheckedInBag> Cargo => cargo.ToList();
 
         public Flight(long id, FlightNumber flightNumber, Departure departure, Destination destination, Aircraft aircraft)
         {
+            passengers = new List<CheckedInPassenger>();
+            cargo = new List<CheckedInBag>();
+
             Id = id;
 
             FlightNumber = flightNumber ?? throw new ArgumentNullException(nameof(flightNumber));;
@@ -31,34 +33,40 @@ namespace Flight.Core.Entities.Flight
             Aircraft = aircraft ?? throw new ArgumentNullException(nameof(aircraft));
         }
 
-        public void CheckIn(Passenger passenger)
+        //TODO: can return boarding pass id
+        public Guid CheckIn(Passenger passenger)
         {
             if (passengers.Count == Aircraft.PassengerCapacity)
             {
                 throw new FlightIsOverbookedException(this, passenger);
             }
 
-            passengers.Add(passenger);
+            var checkedInPassenger = new CheckedInPassenger(passenger);
+            passengers.Add(checkedInPassenger);
+
+            return checkedInPassenger.BoardingPassGuid;
         }
 
-        public void LoadBaggage(Passenger passenger, IEnumerable<Baggage> baggage, 
-            IServiceClassBaggageValidationFactory baggageValidationFactory)
+        //TODO: can return id
+        public void CheckIn(CheckedInBaggage baggage)
         {
-            var baggageList = baggage.ToList();
+            ValidateCanLoadBaggage(baggage);
 
-            var baggageValidator = baggageValidationFactory.Create(passenger.ServiceClass);
-            baggageValidator.Validate(baggageList);
-
-            ValidateCanLoadBaggage(passenger, baggageList);
+            var passengerId = baggage.PassengerId;
+            foreach (var bag in baggage.Bags)
+            {
+                var checkedInBag = new CheckedInBag(passengerId, bag);
+                cargo.Add(checkedInBag);
+            }
         }
 
-        private void ValidateCanLoadBaggage(Passenger passenger, IEnumerable<Baggage> baggage)
+        private void ValidateCanLoadBaggage(CheckedInBaggage baggage)
         {
-            var baggageWeight = baggage.Sum(b => b.Weight);
+            var baggageWeight = baggage.Bags.Sum(b => b.Weight);
             var cargoWeight = cargo.Sum(c => c.Weight);
             if (cargoWeight + baggageWeight > Aircraft.MaxCargoWeight)
             {
-                throw new BaggageOverweightException(this, passenger);
+                throw new AircraftBaggageOverweightException(this, baggage.PassengerId);
             }
         }
     }
